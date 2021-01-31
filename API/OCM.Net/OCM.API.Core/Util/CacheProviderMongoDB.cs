@@ -898,12 +898,12 @@ namespace OCM.Core.Data
             }
         }
 
-        public IEnumerable<OCM.API.Common.Model.ChargePoint> GetPOIList(APIRequestParams settings)
+        public POIListResult GetPOIList(APIRequestParams settings)
         {
             return GetPOIListAsync(settings).Result;
         }
 
-        public async Task<IEnumerable<OCM.API.Common.Model.ChargePoint>> GetPOIListAsync(APIRequestParams filter)
+        public async Task<POIListResult> GetPOIListAsync(APIRequestParams filter)
         {
 
             if (!IsCacheReady())
@@ -1156,6 +1156,10 @@ namespace OCM.Core.Data
                     }
                     else
                     {
+                        if (filter.OnlyCount) {
+                            return new POIListResult(poiList.AsEnumerable().Count());
+                        }
+
                         if (filter.BoundingBox == null || !filter.BoundingBox.Any()) {
                             poiList = poiList.OrderByDescending(p => p.ID);
                         }
@@ -1233,7 +1237,7 @@ namespace OCM.Core.Data
                 stopwatch.Stop();
                 System.Diagnostics.Debug.WriteLine("Cache Provider POI Total Query Time:" + stopwatch.ElapsedMilliseconds + "ms");
 
-                return results;
+                return new POIListResult(results);
             }
             else
             {
@@ -1277,7 +1281,7 @@ namespace OCM.Core.Data
                     }
 
                     var stopwatch = Stopwatch.StartNew();
-                    var poiList = await this.GetPOIListAsync(filter);
+                    var poiList = (await this.GetPOIListAsync(filter)).poiList;
                     stopwatch.Stop();
                     result.Description += " results:" + poiList.ToArray().Count();
                     result.TimeMS = stopwatch.ElapsedMilliseconds;

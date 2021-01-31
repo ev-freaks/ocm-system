@@ -46,7 +46,7 @@ namespace OCM.Core.Data
         {
             try
             {
-                return await CacheProviderMongoDB.DefaultInstance.GetPOIListAsync(filter);
+                return (await CacheProviderMongoDB.DefaultInstance.GetPOIListAsync(filter)).poiList;
             }
             catch (Exception)
             {

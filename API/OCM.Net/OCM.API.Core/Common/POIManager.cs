@@ -227,7 +227,7 @@ namespace OCM.API.Common
             {
                 try
                 {
-                    dataList = await CacheProviderMongoDB.DefaultInstance.GetPOIListAsync(filter);
+                    dataList = (await CacheProviderMongoDB.DefaultInstance.GetPOIListAsync(filter)).poiList;
 
                     if (dataList != null)
                     {

@@ -140,6 +140,11 @@ namespace OCM.API.Common
         /// </summary>
         public int? LevelOfDetail { get; set; }
 
+        /// <summary>
+        /// If supplied and True, the API will return just the record count instead of the real data
+        /// </summary>
+        public Boolean OnlyCount { get; set; }
+
         #region deprecated api filters
 
         public bool FastChargeOnly { get; set; }
@@ -155,6 +160,7 @@ namespace OCM.API.Common
             IsCompactOutput = false;
             AllowMirrorDB = true;
             AllowDataStoreDB = true;
+            OnlyCount = false;
         }
 
         public bool IsLegacyAPICall
@@ -281,6 +287,8 @@ namespace OCM.API.Common
             {
                 if (!String.IsNullOrEmpty(requestParams["fastchargeonly"])) settings.FastChargeOnly = ParseBool(requestParams["fastchargeonly"], false);
             }
+
+            if (!String.IsNullOrEmpty(requestParams["count"])) settings.OnlyCount = ParseBool(requestParams["count"], false);
         }
 
         /// <summary>

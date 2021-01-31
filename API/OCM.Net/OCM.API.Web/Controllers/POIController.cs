@@ -22,7 +22,7 @@ namespace OCM.API.Web.Standard.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ChargePoint> Get()
+        public POIListResult Get()
         {
 
             // use custom query string parsing for compatibility
