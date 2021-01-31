@@ -1,0 +1,14 @@
+version: '2'
+services:
+  app:
+    build:
+      context: ../../../API
+      dockerfile: OCM.Net/OCM.API.Worker/Dockerfile
+    ports:
+      - 8080:80
+    links:
+      - db:mongodb
+
+  db:
+    image: mongo:4.2
+    command: mongod --logpath=/dev/null
